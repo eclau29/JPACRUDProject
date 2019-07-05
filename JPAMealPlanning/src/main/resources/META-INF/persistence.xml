@@ -4,11 +4,11 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-  <persistence-unit name="RecipeBox">
+  <persistence-unit name="MealPlanning">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider
     </provider>
     
-    <class>com.skilldistillery.jpavideostore.entities.FIXME</class>
+    <class>com.skilldistillery.jpavideostore.entities.Recipe</class>
 
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/recipedb?useSSL=false" />
