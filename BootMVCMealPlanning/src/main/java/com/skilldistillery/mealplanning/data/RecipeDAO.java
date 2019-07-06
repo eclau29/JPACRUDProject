@@ -9,8 +9,10 @@ public interface RecipeDAO {
 	//show all Recipes
 	public List<Recipe> findAll();
 	
+	public Recipe searchById (int id);
+	
 	//search by keyword looking at name, mainIngredient,
-	public List<Recipe> searchRecipeByKeyword (String keyword);
+	public List<Recipe> searchByKeyword (String keyword);
 	
 	//search by mealType
 	public List<Recipe> searchByMealType (String meal);
@@ -29,4 +31,5 @@ public interface RecipeDAO {
 	public Recipe updateRecipe(int id, Recipe recipe);
 	
 	public boolean deleteRecipe(int id);
+	
 }
