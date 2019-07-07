@@ -68,6 +68,11 @@ public class RecipeController {
 		
 		return "showResults";
 	}
+	
+	@RequestMapping(path="getRecipes.do", method = RequestMethod.GET)
+	public String goToSearchForm () {
+		return "searchForm";
+	}
 	@RequestMapping(path="addRecipe.do", method = RequestMethod.GET)
 	public String goToAddForm () {
 		return "addRecipeForm";
@@ -75,23 +80,34 @@ public class RecipeController {
 	
 	@RequestMapping(path="addRecipe.do", method= RequestMethod.POST)
 	public String addRecipe(Recipe recipe, Model model) {
-		System.out.println(recipe);
-		Recipe newRecipe = dao.addRecipe(recipe);
-		model.addAttribute("newRecipe", newRecipe);
+		Recipe newRecipe;
+		try {
+			newRecipe = dao.addRecipe(recipe);
+			model.addAttribute("newRecipe", newRecipe);
+		} catch (Exception e) {
+			return "addRecipeError";
+//			e.printStackTrace();
+		}
 		
 		return "recipeDetails";
 	}
 	@RequestMapping(path="updateRecipe.do", method= RequestMethod.POST)
 	public String updateRecipe(@RequestParam ("recipeId") int id, Recipe recipe, Model model) {
+		System.out.println(id);
 		Recipe updatedRecipe = dao.updateRecipe(id, recipe);
-		model.addAttribute("updatedRecipe", updatedRecipe);
+		model.addAttribute("recipe", updatedRecipe);
 		
 		return "recipeDetails";
 	}
+	
+	@RequestMapping(path="updateRecipeForm.do", method= RequestMethod.GET)
+	public String sendToUpdateForm() {
+		return "updateRecipeForm";
+	}
 	@RequestMapping(path="deleteRecipe.do", method= RequestMethod.POST)
-	public String deleteRecipe(int id, Model model) {
-		boolean deletedRecipe = dao.deleteRecipe(id);
-		model.addAttribute("deletedRecipe", deletedRecipe);
+	public String deleteRecipe(@RequestParam ("recipeId") int id, Model model) {
+		boolean isDeleted = dao.deleteRecipe(id);
+		model.addAttribute("deletedRecipe", isDeleted);
 		
 		return "deletedRecipe";
 	}

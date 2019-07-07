@@ -10,7 +10,12 @@
 <p><h3><strong>Your Recipe Box</strong></h3></p>
 
 <a href="showAll.do">Show All Recipes</a><br/>
+<br>
 <a href="addRecipe.do">Add New Recipe</a><br/>
-<a href="updateRecipeForm.jsp">Update/Delete Recipe</a><br/>
-</body>
+<br>
+<a href="getRecipes.do">Search Recipes</a><br/>
+<br>
+<!-- <a href="updateRecipeForm.do">Update/Delete Recipe</a><br/> -->
+ 
+ </body>
 </html>

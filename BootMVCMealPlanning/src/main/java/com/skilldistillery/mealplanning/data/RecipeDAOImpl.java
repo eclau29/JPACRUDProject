@@ -45,8 +45,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 	public List<Recipe> searchByKeyword(String keyword) {
 //		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.name like :keyword OR r.mainIngredient like :keyword";
-		List<Recipe> listByKeyword = em.createQuery(query, Recipe.class).setParameter("keyword", keyword)
-				.setParameter("keyword", keyword).getResultList();
+		List<Recipe> listByKeyword = em.createQuery(query, Recipe.class).setParameter("keyword", "%" + keyword + "%")
+				.setParameter("keyword",  "%" + keyword + "%").getResultList();
 
 		for (Recipe recipe : listByKeyword) {
 			System.out.println(recipe.getName());
@@ -76,9 +76,9 @@ public class RecipeDAOImpl implements RecipeDAO {
 		List<Recipe> listByCuisine = em.createQuery(query, Recipe.class).setParameter("cuisine", cuisine)
 				.getResultList();
 
-		for (Recipe recipe : listByCuisine) {
-			System.out.println(recipe.getName());
-		}
+//		for (Recipe recipe : listByCuisine) {
+//			System.out.println(recipe.getName());
+//		}
 //		em.close();
 		return listByCuisine;
 	}
@@ -86,7 +86,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	@Override
 	public List<Recipe> searchByCookTime(int cookTime) {
 //		EntityManager em = emf.createEntityManager();
-		String query = "SELECT r FROM Recipe r WHERE r.cookTime = :cookTime OR r.cookTime < :cookTime";
+		String query = "SELECT r FROM Recipe r WHERE r.cookTimeMins = :cookTime OR r.cookTimeMins < :cookTime";
 		List<Recipe> listByCookTime = em.createQuery(query, Recipe.class).setParameter("cookTime", cookTime)
 				.setParameter("cookTime", cookTime).getResultList();
 
@@ -116,13 +116,9 @@ public class RecipeDAOImpl implements RecipeDAO {
 	public Recipe addRecipe(Recipe recipe) {
 //		EntityManager em = emf.createEntityManager();
 //		em.getTransaction().begin();
-		System.out.println("starting addRecipe method");
-		System.out.println(recipe);
 		em.persist(recipe);
 
 		em.flush();
-		System.out.println("flushing in addRecipe method");
-		System.out.println(recipe);
 //		em.getTransaction().commit();
 //		em.close();
 		return recipe;
@@ -157,8 +153,12 @@ public class RecipeDAOImpl implements RecipeDAO {
 //		em.getTransaction().begin();
 
 		Recipe recipeToDelete = em.find(Recipe.class, id);
-		em.remove(recipeToDelete);
-		em.getTransaction().commit();
+		
+			em.remove(recipeToDelete);
+		
+//			e.printStackTrace();
+		
+//		em.getTransaction().commit();
 //		em.close();
 		return true;
 	}

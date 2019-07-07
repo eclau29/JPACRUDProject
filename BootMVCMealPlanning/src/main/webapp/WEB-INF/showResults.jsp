@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><strong>Search Results</strong></title>
+<title>Search Results</title>
 </head>
 <body>
 <h3><strong>Search Results</strong></h3>
@@ -14,19 +14,24 @@
 		<c:when test="${! empty recipes }">
 			<ul>
 				<c:forEach items="${recipes}" var="recipe">
-					<li>${recipe.name }<a href="${recipe.recipeUrl }"></a></li>
-					<li>Recipe ID: ${recipe.id }</li>
-					<li>Meal Type: ${recipe.mealType }</li>
-					<li>Cuisine: ${recipe.cuisine }</li>
-					<li>Main Ingredient: ${recipe.mainIngredient }</li>
-					<li>Cooking Time: ${recipe.cookTimeMins }</li>
-					<li>Description: ${recipe.description }</li>
-					<li>Servings: ${recipe.servingSize }</li>
-					<li>Calories per Serving: ${recipe.calPerServing }</li>
-					<li>Notes: ${recipe.notes }</li>
-					<form action="GetFilm.do">
-					<input type="hidden" value="${recipe.id }" name="rid" />
-					<input type="submit" action="findfilmbyid.do" value="Update/Delete Film" />
+						<li>${recipe.name }<a href="${recipe.recipeUrl }"></a></li>
+						<li>Recipe ID: ${recipe.id }</li>
+						<li>Meal Type: ${recipe.mealType }</li>
+						<li>Cuisine: ${recipe.cuisine }</li>
+						<li>Main Ingredient: ${recipe.mainIngredient }</li>
+						<li>Cooking Time: ${recipe.cookTimeMins }</li>
+						<li>Description: ${recipe.description }</li>
+						<li>Servings: ${recipe.servingSize }</li>
+						<li>Calories per Serving: ${recipe.calPerServing }</li>
+						<li>Notes: ${recipe.notes }</li>
+						<form action="sendToUpdateRecipe.do">
+							<input type="hidden" value="${recipe.id }" name="recipeId"/>
+							<input type="submit" class="btn btn-warning btn-md" value="Update" />
+						</form>
+						<form action="deleteRecipe.do" method="POST">
+							<input type="hidden" value="${recipe.id}" name="recipeId"/>
+							<input type="submit" class="btn btn-danger btn-md"value="Delete"/>
+						</form>
 					<hr>
 				</c:forEach>
 			</ul>
