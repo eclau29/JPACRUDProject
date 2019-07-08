@@ -61,6 +61,9 @@
 		<label for="notes">Notes:</label>
 			<input type="text" name="notes" value="${recipe.notes}" size=50>
 			<br>
+		<label for="recipeUrl">Recipe URL:</label>
+			<input type="text" name="recipeUrl" value="${recipe.recipeUrl}" size=65>
+			<br>
 		<input type="hidden" value="${recipe.id}" name="recipeId"/> 
 		<input type="submit" class="btn btn-success btn-md" value="Make Changes ">
 		     
