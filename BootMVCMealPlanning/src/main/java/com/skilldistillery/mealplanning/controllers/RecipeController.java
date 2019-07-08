@@ -2,9 +2,12 @@ package com.skilldistillery.mealplanning.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,9 @@ public class RecipeController {
 	@RequestMapping(path = "getRecipeById.do", method = RequestMethod.GET)
 	public String getRecipeById(@RequestParam("recipeId") int id, Model model) {
 		Recipe recipe = dao.searchById(id);
+		if (recipe == null) {
+			return "generalError";
+		}
 		model.addAttribute("recipe", recipe);
 		return "recipeDetails";
 	}
@@ -85,9 +91,12 @@ public class RecipeController {
 	}
 
 	@RequestMapping(path = "addRecipe.do", method = RequestMethod.POST)
-	public String addRecipe(Recipe recipe, Model model) {
+	public String addRecipe(@Valid Recipe recipe, Errors errors, Model model) {
 		Recipe newRecipe;
 		newRecipe = dao.addRecipe(recipe);
+		if (errors.getErrorCount() != 0) {
+			return "addRecipeError";
+		}
 		model.addAttribute("newRecipe", newRecipe);
 		return "recipeDetails";
 	}
@@ -109,8 +118,12 @@ public class RecipeController {
 	@RequestMapping(path = "deleteRecipe.do", method = RequestMethod.POST)
 	public String deleteRecipe(@RequestParam("recipeId") int id, Model model) {
 		boolean isDeleted = dao.deleteRecipe(id);
-		model.addAttribute("deletedRecipe", isDeleted);
-		return "deletedRecipe";
+		if (isDeleted) {
+			model.addAttribute("deletedRecipe", isDeleted);
+			return "deletedRecipe";
+		} else {
+			return "deleteError";
+		}
 	}
 
 	@RequestMapping(path = "sendToUpdateRecipe.do", method = RequestMethod.GET)

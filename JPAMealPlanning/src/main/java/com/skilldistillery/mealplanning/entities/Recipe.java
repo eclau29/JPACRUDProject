@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class Recipe {
 
@@ -13,6 +15,7 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@NotNull
 	private String name;
 	
 	@Column(name="meal_type")
@@ -24,6 +27,7 @@ public class Recipe {
 	private String mainIngredient;
 	
 	@Column(name="cook_time_mins")
+	@NotNull
 	private int cookTimeMins;
 	
 	@Column(name="recipe_url")
@@ -34,6 +38,7 @@ public class Recipe {
 	private String notes;
 	
 	@Column(name="serving_size")
+	@NotNull
 	private int servingSize;
 	
 	@Column(name="cal_per_serving")

@@ -19,59 +19,54 @@ public class RecipeDAOImpl implements RecipeDAO {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Override
 	public List<Recipe> findAll() {
-//		EntityManager em = emf.createEntityManager();
 		String jpqlQuery = "SELECT r FROM Recipe r";
 		List<Recipe> allRecipes = em.createQuery(jpqlQuery, Recipe.class).getResultList();
 
-//		em.close();
 		return allRecipes;
 	}
 
 	@Override
 	public Recipe searchById(int id) {
-//		EntityManager em = emf.createEntityManager();
 		String jpqlQuery = "SELECT r FROM Recipe r WHERE r.id = :id";
-		Recipe recipe = em.createQuery(jpqlQuery, Recipe.class).setParameter("id", id).getResultList().get(0);
-
-//		em.close();
-		return recipe;
+		List<Recipe> recipe = em.createQuery(jpqlQuery, Recipe.class).setParameter("id", id).getResultList();
+		if (recipe.size() < 1) {
+			return null;
+		} else {
+			return recipe.get(0);
+		}
 	}
 
 	// search by keyword looking at name, mainIngredient
 	@Override
 	public List<Recipe> searchByKeyword(String keyword) {
-//		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.name like :keyword OR r.mainIngredient like :keyword";
 		List<Recipe> listByKeyword = em.createQuery(query, Recipe.class).setParameter("keyword", "%" + keyword + "%")
-				.setParameter("keyword",  "%" + keyword + "%").getResultList();
+				.setParameter("keyword", "%" + keyword + "%").getResultList();
 
 		for (Recipe recipe : listByKeyword) {
 			System.out.println(recipe.getName());
 		}
-//		em.close();
 		return listByKeyword;
 	}
 
 	@Override
 	public List<Recipe> searchByMealType(String meal) {
-//		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.mealType like :meal";
-		List<Recipe> listByMealType = em.createQuery(query, Recipe.class).setParameter("meal", "%" + meal + "%").getResultList();
+		List<Recipe> listByMealType = em.createQuery(query, Recipe.class).setParameter("meal", "%" + meal + "%")
+				.getResultList();
 
 		for (Recipe recipe : listByMealType) {
 			System.out.println(recipe.getName());
 		}
 
-//		em.close();
 		return listByMealType;
 	}
 
 	@Override
 	public List<Recipe> searchByCuisine(String cuisine) {
-//		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.cuisine like :cuisine";
 		List<Recipe> listByCuisine = em.createQuery(query, Recipe.class).setParameter("cuisine", "%" + cuisine + "%")
 				.getResultList();
@@ -79,13 +74,11 @@ public class RecipeDAOImpl implements RecipeDAO {
 //		for (Recipe recipe : listByCuisine) {
 //			System.out.println(recipe.getName());
 //		}
-//		em.close();
 		return listByCuisine;
 	}
 
 	@Override
 	public List<Recipe> searchByCookTime(int cookTime) {
-//		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.cookTimeMins = :cookTime OR r.cookTimeMins < :cookTime";
 		List<Recipe> listByCookTime = em.createQuery(query, Recipe.class).setParameter("cookTime", cookTime)
 				.setParameter("cookTime", cookTime).getResultList();
@@ -93,13 +86,11 @@ public class RecipeDAOImpl implements RecipeDAO {
 		for (Recipe recipe : listByCookTime) {
 			System.out.println(recipe.getName());
 		}
-//		em.close();
 		return listByCookTime;
 	}
 
 	@Override
 	public List<Recipe> searchByCalPerServing(Integer cal) {
-//		EntityManager em = emf.createEntityManager();
 		String query = "SELECT r FROM Recipe r WHERE r.calPerServing = :calPerServing OR r.calPerServing < :calPerServing";
 		List<Recipe> listByCalPerServing = em.createQuery(query, Recipe.class).setParameter("calPerServing", cal)
 				.setParameter("calPerServing", cal).getResultList();
@@ -107,29 +98,20 @@ public class RecipeDAOImpl implements RecipeDAO {
 		for (Recipe recipe : listByCalPerServing) {
 			System.out.println(recipe.getName());
 		}
-//		em.close();
 		return listByCalPerServing;
 	}
 
-	// works! :D
 	@Override
 	public Recipe addRecipe(Recipe recipe) {
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
 		em.persist(recipe);
 
 		em.flush();
-//		em.getTransaction().commit();
-//		em.close();
 		return recipe;
 	}
 
 	@Override
 	public Recipe updateRecipe(int id, Recipe recipe) {
-//		EntityManager em = emf.createEntityManager();
 		Recipe recipeToUpdate = em.find(Recipe.class, id);
-		
-//		em.getTransaction().begin();
 
 		recipeToUpdate.setName(recipe.getName());
 		recipeToUpdate.setMealType(recipe.getMealType());
@@ -142,24 +124,21 @@ public class RecipeDAOImpl implements RecipeDAO {
 		recipeToUpdate.setServingSize(recipe.getServingSize());
 		recipeToUpdate.setCalPerServing(recipe.getCalPerServing());
 
-//		em.getTransaction().commit();
-//		em.close();
 		return recipeToUpdate;
 	}
 
 	@Override
 	public boolean deleteRecipe(int id) {
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
 
 		Recipe recipeToDelete = em.find(Recipe.class, id);
-		
+
+		try {
 			em.remove(recipeToDelete);
-		
-//			e.printStackTrace();
-		
-//		em.getTransaction().commit();
-//		em.close();
+		} catch (Exception e) {
+			return false;
+			// e.printStackTrace();
+		}
+
 		return true;
 	}
 
