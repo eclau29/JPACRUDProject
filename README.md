@@ -25,3 +25,4 @@ The user may view each recipe's information, which includes a URL to the recipe 
 #### Future Features
 * Enable the user to manually enter the recipe directions, as opposed to sending the user to a website
 * Create a shopping list feature
+* Enable the user to search for multiple categories at a time, to receive more specific results
