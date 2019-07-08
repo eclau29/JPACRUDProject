@@ -93,10 +93,10 @@ public class RecipeController {
 	@RequestMapping(path = "addRecipe.do", method = RequestMethod.POST)
 	public String addRecipe(@Valid Recipe recipe, Errors errors, Model model) {
 		Recipe newRecipe;
-		newRecipe = dao.addRecipe(recipe);
 		if (errors.getErrorCount() != 0) {
 			return "addRecipeError";
 		}
+		newRecipe = dao.addRecipe(recipe);
 		model.addAttribute("newRecipe", newRecipe);
 		return "recipeDetails";
 	}
