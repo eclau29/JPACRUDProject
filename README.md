@@ -22,3 +22,7 @@ The user may view each recipe's information, which includes a URL to the recipe 
 * How to create/manage a database
 * Default Request Method is "GET"
 * How to use @Service and @Transactional/@PersistenceContext annotations
+
+#### Future Features
+* Enable the user to manually enter the recipe directions, as opposed to sending the user to a website
+* Create a shopping list feature
