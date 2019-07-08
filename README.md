@@ -17,7 +17,6 @@ The user may view each recipe's information, which includes a URL to the recipe 
 * mySQL Workbench
 
 #### Lessons Learned
-* Spelling counts - variables/path information must be consistent from Controller, DAOImpl, .jsp pages, etc.
 * How to utilize DML (Data Manipulation Language) to add, update, or delete data from a database
 * How to create/manage a database
 * Default Request Method is "GET"
