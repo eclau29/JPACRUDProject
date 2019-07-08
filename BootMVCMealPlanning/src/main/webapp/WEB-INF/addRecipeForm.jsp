@@ -47,7 +47,7 @@
 			<label for="calPerServing">Calories Per Serving:</label>
 				<input type="number" name="calPerServing">
 			<br>
-		
+			<br>
 			<input type="submit" class="btn btn-success btn-md" value="Add Recipe">
 		</form>
 		<br>

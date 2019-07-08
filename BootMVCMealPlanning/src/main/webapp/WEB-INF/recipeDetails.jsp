@@ -36,7 +36,7 @@
 			</form>
 				
 				<br>
-				
+	
 				<form action="deleteRecipe.do" method="POST">
 					<input type="hidden" value="${recipe.id}" name="recipeId"/>
 					<input type="submit" class="btn btn-danger btn-md" value="Delete"/>

@@ -62,20 +62,17 @@
 			<input type="text" name="notes" value="${recipe.notes}" size=50>
 			<br>
 		<input type="hidden" value="${recipe.id}" name="recipeId"/> 
-		<input type="submit" class="btn btn-primary btn-md" value="Make Changes ">
+		<input type="submit" class="btn btn-success btn-md" value="Make Changes ">
 		     
-		<%-- <button formaction="deleteRecipe.do?id=${recipe.id}" class="btn btn-danger btn-md" type="button">Click here to DELETE</button> --%>
-		
 	</form>
-				
-		<form action="deleteRecipe.do" method="POST">
-			<input type="hidden" value="${recipe.id}" name="recipeId"/>
-			<input type="submit" class="btn btn-danger btn-md"value="Delete"/>
-		</form>
-		
-		<form action="goHome.do" method="GET">
-			<input type="submit" class="btn btn-info btn-md" value="Return Home">
-		</form>
-
+			<br>
+			<form action="deleteRecipe.do" method="POST">
+				<input type="hidden" value="${recipe.id}" name="recipeId"/>
+				<input type="submit" class="btn btn-danger btn-md"value="Delete"/>
+			</form>
+			<br>
+			<form action="goHome.do" method="GET">
+				<input type="submit" class="btn btn-info btn-md" value="Return Home">
+			</form>
 </body>
 </html>

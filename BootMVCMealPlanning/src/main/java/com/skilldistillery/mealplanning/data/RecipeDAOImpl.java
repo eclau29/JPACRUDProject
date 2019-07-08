@@ -58,8 +58,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 	@Override
 	public List<Recipe> searchByMealType(String meal) {
 //		EntityManager em = emf.createEntityManager();
-		String query = "SELECT r FROM Recipe r WHERE r.mealType = :meal";
-		List<Recipe> listByMealType = em.createQuery(query, Recipe.class).setParameter("meal", meal).getResultList();
+		String query = "SELECT r FROM Recipe r WHERE r.mealType like :meal";
+		List<Recipe> listByMealType = em.createQuery(query, Recipe.class).setParameter("meal", "%" + meal + "%").getResultList();
 
 		for (Recipe recipe : listByMealType) {
 			System.out.println(recipe.getName());
@@ -72,8 +72,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 	@Override
 	public List<Recipe> searchByCuisine(String cuisine) {
 //		EntityManager em = emf.createEntityManager();
-		String query = "SELECT r FROM Recipe r WHERE r.cuisine = :cuisine";
-		List<Recipe> listByCuisine = em.createQuery(query, Recipe.class).setParameter("cuisine", cuisine)
+		String query = "SELECT r FROM Recipe r WHERE r.cuisine like :cuisine";
+		List<Recipe> listByCuisine = em.createQuery(query, Recipe.class).setParameter("cuisine", "%" + cuisine + "%")
 				.getResultList();
 
 //		for (Recipe recipe : listByCuisine) {
