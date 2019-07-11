@@ -126,13 +126,6 @@ public class RecipeController {
 		}
 	}
 
-	@RequestMapping(path = "sendToUpdateRecipe.do", method = RequestMethod.GET)
-	public String sendToEdit(@RequestParam("recipeId") int id, Model model) {
-		Recipe recipe = dao.searchById(id);
-		model.addAttribute("recipe", recipe);
-		return "updateRecipeForm";
-	}
-
 	@RequestMapping(path = "goHome.do", method = RequestMethod.GET)
 	public String goHome() {
 		return "index";
