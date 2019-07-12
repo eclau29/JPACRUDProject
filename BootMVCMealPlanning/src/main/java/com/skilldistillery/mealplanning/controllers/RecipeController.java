@@ -132,4 +132,6 @@ public class RecipeController {
 	public String goHome() {
 		return "index";
 	}
+	
+	public void deleteMe() {};
 }
