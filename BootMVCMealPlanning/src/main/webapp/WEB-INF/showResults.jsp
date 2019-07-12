@@ -29,7 +29,7 @@
 						<li>Calories per Serving: ${recipe.calPerServing }</li>
 						<li>Notes: ${recipe.notes }</li>
 						<br>
-						<form action="sendToUpdateRecipe.do">
+						<form action="sendToUpdateRecipeForm.do">
 							<input type="hidden" value="${recipe.id }" name="recipeId"/>
 							<input type="submit" class="btn btn-warning btn-md" value="Update" />
 						</form>

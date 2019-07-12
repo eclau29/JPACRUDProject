@@ -110,8 +110,10 @@ public class RecipeController {
 		return "recipeDetails";
 	}
 
-	@RequestMapping(path = "updateRecipeForm.do", method = RequestMethod.GET)
-	public String sendToUpdateForm() {
+	@RequestMapping(path = "sendToUpdateRecipe.do", method = RequestMethod.GET)
+	public String sendToEdit(@RequestParam("recipeId") int id, Model model) {
+		Recipe recipe = dao.searchById(id);
+		model.addAttribute("recipe", recipe);
 		return "updateRecipeForm";
 	}
 
