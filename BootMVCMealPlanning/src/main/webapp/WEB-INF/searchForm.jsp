@@ -25,6 +25,12 @@
 			<input type="submit" value="Search">
 			<br>
 	</form> 
+	<form action="getRecipesIngredient.do" method="GET">
+		Ingredient:
+			<input type="text" name="ingredient">
+			<input type="submit" value="Search">
+			<br>
+	</form> 
 	<form action="getRecipesMealType.do" method="GET">
 		Meal Type:
 			<input type="text" name="mealType" value="${recipe.mealType }">

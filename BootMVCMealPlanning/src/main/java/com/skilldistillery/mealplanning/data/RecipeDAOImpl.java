@@ -3,13 +3,12 @@ package com.skilldistillery.mealplanning.data;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.mealplanning.entities.Ingredient;
 import com.skilldistillery.mealplanning.entities.Recipe;
 
 @Service
@@ -39,10 +38,11 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 	}
 
-	// search by keyword looking at name, mainIngredient
+	// search by keyword looking at name, ingredients
 	@Override
 	public List<Recipe> searchByKeyword(String keyword) {
-		String query = "SELECT r FROM Recipe r WHERE r.name like :keyword OR r.mainIngredient like :keyword";
+		String query = "SELECT DISTINCT(r) FROM Recipe r WHERE r.name like :keyword ";
+//				+ "OR r.ingredients.ingredName like :keyword";
 		List<Recipe> listByKeyword = em.createQuery(query, Recipe.class).setParameter("keyword", "%" + keyword + "%")
 				.setParameter("keyword", "%" + keyword + "%").getResultList();
 
@@ -50,6 +50,19 @@ public class RecipeDAOImpl implements RecipeDAO {
 			System.out.println(recipe.getName());
 		}
 		return listByKeyword;
+	}
+	
+	@Override
+	public List<Recipe> searchByIngredient(String ingredient){
+		String query = "SELECT i FROM Ingredient i WHERE i.ingredName like :ingredient"; //couldn't search based on recipe for some 
+												//reason; some recipes displayed all their ingredients, 
+												//other recipes showed only the ingredient you searched for...
+												//couldn't figure out how to fix that so used a query based on ingredients
+		
+		List<Recipe> listByIngredients = em.createQuery(query, Ingredient.class).setParameter("ingredient", "%" + ingredient + "%")
+				.getResultList().get(0).getRecipeList(); //doesn't work if ingredient input from form includes the name of another ingredient (for example, milk & sweetened condensed milk)
+		
+		return listByIngredients;
 	}
 
 	@Override
@@ -116,7 +129,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		recipeToUpdate.setName(recipe.getName());
 		recipeToUpdate.setMealType(recipe.getMealType());
 		recipeToUpdate.setCuisine(recipe.getCuisine());
-		recipeToUpdate.setMainIngredient(recipe.getMainIngredient());
+//		recipeToUpdate.setIngredients(recipe.getIngredients());
 		recipeToUpdate.setCookTimeMins(recipe.getCookTimeMins());
 		recipeToUpdate.setRecipeUrl(recipe.getRecipeUrl());
 		recipeToUpdate.setDescription(recipe.getDescription());

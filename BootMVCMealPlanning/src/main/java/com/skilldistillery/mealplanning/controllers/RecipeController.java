@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skilldistillery.mealplanning.data.RecipeDAO;
+import com.skilldistillery.mealplanning.entities.Ingredient;
 import com.skilldistillery.mealplanning.entities.Recipe;
 
 @Controller
@@ -44,6 +45,20 @@ public class RecipeController {
 	@RequestMapping(path = "getRecipesKeyword.do", method = RequestMethod.GET)
 	public String showResultsByKeyword(String keyword, Model model) {
 		List<Recipe> recList = dao.searchByKeyword(keyword);
+		model.addAttribute("recipes", recList);
+		System.out.println(recList);
+		return "showResults";
+	}
+	
+	@RequestMapping(path = "getRecipesIngredient.do", method = RequestMethod.GET)
+	public String showResultsByIngredient(String ingredient, Model model) {
+		List<Recipe> recList = dao.searchByIngredient(ingredient);
+		System.out.println(recList.size());
+		for (Recipe recipe : recList) {
+			for (Ingredient ing : recipe.getIngredients()) {
+				System.out.println(ing);
+			}
+		}
 		model.addAttribute("recipes", recList);
 		return "showResults";
 	}

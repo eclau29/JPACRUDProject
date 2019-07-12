@@ -22,14 +22,19 @@
 						<li>Recipe ID: ${recipe.id }</li>
 						<li>Meal Type: ${recipe.mealType }</li>
 						<li>Cuisine: ${recipe.cuisine }</li>
-						<li>Main Ingredient: ${recipe.mainIngredient }</li>
+						<li>Ingredients: </li>
+									<ul>
+										<c:forEach items="${recipe.ingredients}" var="ingredient">
+											<li>${ingredient.ingredName}</li>
+										</c:forEach>
+									</ul>
 						<li>Cooking Time: ${recipe.cookTimeMins }</li>
 						<li>Description: ${recipe.description }</li>
 						<li>Servings: ${recipe.servingSize }</li>
 						<li>Calories per Serving: ${recipe.calPerServing }</li>
 						<li>Notes: ${recipe.notes }</li>
 						<br>
-						<form action="sendToUpdateRecipeForm.do">
+						<form action="sendToUpdateRecipe.do">
 							<input type="hidden" value="${recipe.id }" name="recipeId"/>
 							<input type="submit" class="btn btn-warning btn-md" value="Update" />
 						</form>

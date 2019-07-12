@@ -2,6 +2,7 @@ package com.skilldistillery.mealplanning.data;
 
 import java.util.List;
 
+import com.skilldistillery.mealplanning.entities.Ingredient;
 import com.skilldistillery.mealplanning.entities.Recipe;
 
 public interface RecipeDAO {
@@ -11,7 +12,7 @@ public interface RecipeDAO {
 	
 	public Recipe searchById (int id);
 	
-	//search by keyword looking at name, mainIngredient,
+	//search by keyword looking at name, ingredients
 	public List<Recipe> searchByKeyword (String keyword);
 	
 	//search by mealType
@@ -31,5 +32,7 @@ public interface RecipeDAO {
 	public Recipe updateRecipe(int id, Recipe recipe);
 	
 	public boolean deleteRecipe(int id);
+
+	public List<Recipe> searchByIngredient(String ingredient);
 	
 }

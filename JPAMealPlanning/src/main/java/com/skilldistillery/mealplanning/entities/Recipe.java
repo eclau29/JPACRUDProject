@@ -1,30 +1,38 @@
 package com.skilldistillery.mealplanning.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.xml.ws.soap.MTOM;
 
 import com.sun.istack.NotNull;
 
 @Entity
 public class Recipe {
 
+	// F I E L D S
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@NotNull
+	@Column(name="recipe_name")
 	private String name;
 	
 	@Column(name="meal_type")
 	private String mealType;
 	
 	private String cuisine;
-	
-	@Column(name="main_ingredient")
-	private String mainIngredient;
 	
 	@Column(name="cook_time_mins")
 	@NotNull
@@ -43,9 +51,43 @@ public class Recipe {
 	
 	@Column(name="cal_per_serving")
 	private Integer calPerServing;
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name = "recipe_ingredient", 
+		joinColumns = @JoinColumn(name = "recipe_id"), 
+		inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+	private List<Ingredient> ingredients;
+	
+	
+	// M E T H O D S
+	
+	public void addIngredient(Ingredient ingredient) {
+		if (ingredients == null) {
+			ingredients = new ArrayList<>();
+		}
+		if (!ingredients.contains(ingredient)) {
+			ingredients.add(ingredient);
+			ingredient.addRecipe(this);
+		}
+	}
+	
+	public void removeIngredient(Ingredient ingredient) {
+		if (ingredients != null && ingredients.contains(ingredient)) {
+			ingredients.remove(ingredient);
+			ingredient.removeRecipe(this);
+		}
+	}
 
 	public int getId() {
 		return id;
+	}
+
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
 	}
 
 	public void setId(int id) {
@@ -74,14 +116,6 @@ public class Recipe {
 
 	public void setCuisine(String cuisine) {
 		this.cuisine = cuisine;
-	}
-
-	public String getMainIngredient() {
-		return mainIngredient;
-	}
-
-	public void setMainIngredient(String mainIngredient) {
-		this.mainIngredient = mainIngredient;
 	}
 
 	public int getCookTimeMins() {
@@ -136,17 +170,7 @@ public class Recipe {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((calPerServing == null) ? 0 : calPerServing.hashCode());
-		result = prime * result + cookTimeMins;
-		result = prime * result + ((cuisine == null) ? 0 : cuisine.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((mainIngredient == null) ? 0 : mainIngredient.hashCode());
-		result = prime * result + ((mealType == null) ? 0 : mealType.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-		result = prime * result + ((recipeUrl == null) ? 0 : recipeUrl.hashCode());
-		result = prime * result + servingSize;
 		return result;
 	}
 
@@ -159,51 +183,7 @@ public class Recipe {
 		if (getClass() != obj.getClass())
 			return false;
 		Recipe other = (Recipe) obj;
-		if (calPerServing == null) {
-			if (other.calPerServing != null)
-				return false;
-		} else if (!calPerServing.equals(other.calPerServing))
-			return false;
-		if (cookTimeMins != other.cookTimeMins)
-			return false;
-		if (cuisine == null) {
-			if (other.cuisine != null)
-				return false;
-		} else if (!cuisine.equals(other.cuisine))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
 		if (id != other.id)
-			return false;
-		if (mainIngredient == null) {
-			if (other.mainIngredient != null)
-				return false;
-		} else if (!mainIngredient.equals(other.mainIngredient))
-			return false;
-		if (mealType == null) {
-			if (other.mealType != null)
-				return false;
-		} else if (!mealType.equals(other.mealType))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (notes == null) {
-			if (other.notes != null)
-				return false;
-		} else if (!notes.equals(other.notes))
-			return false;
-		if (recipeUrl == null) {
-			if (other.recipeUrl != null)
-				return false;
-		} else if (!recipeUrl.equals(other.recipeUrl))
-			return false;
-		if (servingSize != other.servingSize)
 			return false;
 		return true;
 	}
@@ -211,10 +191,12 @@ public class Recipe {
 	@Override
 	public String toString() {
 		return "Recipe [id=" + id + ", name=" + name + ", mealType=" + mealType + ", cuisine=" + cuisine
-				+ ", mainIngredient=" + mainIngredient + ", cookTimeMins=" + cookTimeMins + ", recipeUrl=" + recipeUrl
-				+ ", description=" + description + ", notes=" + notes + ", servingSize=" + servingSize
-				+ ", calPerServing=" + calPerServing + "]";
+				+ ", cookTimeMins=" + cookTimeMins + ", recipeUrl=" + recipeUrl + ", description=" + description
+				+ ", notes=" + notes + ", servingSize=" + servingSize + ", calPerServing=" + calPerServing
+				+ ", ingredients=" + ingredients + "]";
 	}
+
+	
 	
 	
 	

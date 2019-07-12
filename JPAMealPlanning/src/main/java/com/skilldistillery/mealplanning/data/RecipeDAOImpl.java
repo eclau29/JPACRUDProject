@@ -120,7 +120,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		recipeToUpdate.setName("Macaroni and Cheese");
 		recipeToUpdate.setMealType("");
 		recipeToUpdate.setCuisine("");
-		recipeToUpdate.setMainIngredient("");
+//		recipeToUpdate.setMainIngredient("");
 		recipeToUpdate.setCookTimeMins(55);
 		recipeToUpdate.setRecipeUrl("www.google.com");
 		recipeToUpdate.setNotes("Notes go here.");
