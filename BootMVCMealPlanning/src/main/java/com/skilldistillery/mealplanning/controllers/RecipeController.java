@@ -133,5 +133,4 @@ public class RecipeController {
 		return "index";
 	}
 	
-	public void deleteMe() {};
 }
