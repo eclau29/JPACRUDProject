@@ -21,7 +21,7 @@ public class RecipeController {
 	@Autowired
 	private RecipeDAO dao;
 
-	// this is the home page; it will show a list of all recipes available
+	// this is home page; it will show a list of all recipes available
 	@RequestMapping(path = "showAll.do", method = RequestMethod.GET)
 	public String showAllRecipes(Model model) {
 
