@@ -26,9 +26,6 @@
 			<label for="cuisine">Cuisine:</label>
 				<input type="text" name="cuisine">
 			<br>
-			<label for="mainIngredient">Main Ingredient:</label>
-				<input type="text" name="mainIngredient">
-			<br>
 			<label for="cookTimeMins">*Cooking Time (mins):</label>
 				<input type="number" name="cookTimeMins">
 			<br>

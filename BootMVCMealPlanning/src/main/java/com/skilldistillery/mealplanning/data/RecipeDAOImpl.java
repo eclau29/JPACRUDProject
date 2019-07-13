@@ -155,4 +155,14 @@ public class RecipeDAOImpl implements RecipeDAO {
 		return true;
 	}
 
+	@Override
+	public Ingredient findIngredientByName(String ingredient) {
+		String query = "SELECT i FROM Ingredient i WHERE i.ingredName = :ingredient";
+		Ingredient foundIngredient = em.createQuery(query, Ingredient.class).setParameter("ingredient", ingredient).getSingleResult();
+		
+		return foundIngredient;
+	}
+	
+	
+
 }

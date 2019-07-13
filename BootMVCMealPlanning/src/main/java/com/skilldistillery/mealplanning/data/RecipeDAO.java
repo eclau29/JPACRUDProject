@@ -35,4 +35,6 @@ public interface RecipeDAO {
 
 	public List<Recipe> searchByIngredient(String ingredient);
 	
+	public Ingredient findIngredientByName (String ingredient);
+	
 }

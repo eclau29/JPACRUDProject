@@ -22,18 +22,43 @@
 					<li>Recipe ID: ${recipe.id }</li>
 					<li>Meal Type: ${recipe.mealType }</li>
 					<li>Cuisine:  ${recipe.cuisine }</li>
-					<li>Main Ingredient:  ${recipe.mainIngredient }</li>
 					<li>Cooking Time:  ${recipe.cookTimeMins }</li>
+					<li>Ingredients: </li>
+									<ul>
+										<c:forEach items="${recipe.ingredients}" var="ingredient">
+											<li>${ingredient.ingredName}</li>
+										</c:forEach>
+									</ul>
 					<li>Description:  ${recipe.description }</li>
 					<li>Servings:  ${recipe.servingSize }</li>
 					<li>Calories per Serving:  ${recipe.calPerServing }</li>
 					<li>Notes:  ${recipe.notes }</li>
 				</ul>
 					<input type="hidden" value="${recipe.id }" name="recipeId"/>
+					<input type="hidden" value="${recipe.ingredients }" name="ingredients"/>
 					<input type="submit" class="btn btn-warning btn-md" value="Update" />
 					
 					
 			</form>
+			
+			<h3>Would you like to edit the ingredients list?</h3>
+			<br>
+				<form action="addIngredientToRecipe.do" method="POST">
+					<label for="ingredient">Ingredient to Add:</label>
+					<input type="text" name="ingredient" size=50>
+				<br>
+					<input type="hidden" value="${recipe.id}" name="recipeId"/>
+					<input type="submit" class="btn btn-warning btn-sm" value="Add Ingredient"/>
+				</form>
+	
+				<br>
+				<form action="delIngredientFromRecipe.do" method="POST">
+					<label for="ingredient">Ingredient to Delete:</label>
+					<input type="text" name="ingredient" size=50>
+				<br>
+					<input type="hidden" value="${recipe.id}" name="recipeId"/>
+					<input type="submit" class="btn btn-warning btn-sm" value="Delete Ingredient"/>
+				</form>
 				
 				<br>
 	

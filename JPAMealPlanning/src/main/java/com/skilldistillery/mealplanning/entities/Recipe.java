@@ -67,15 +67,19 @@ public class Recipe {
 		}
 		if (!ingredients.contains(ingredient)) {
 			ingredients.add(ingredient);
+			System.out.println(ingredient);
+			System.out.println(ingredients.size());
 			ingredient.addRecipe(this);
 		}
 	}
 	
-	public void removeIngredient(Ingredient ingredient) {
+	public boolean removeIngredient(Ingredient ingredient) {
 		if (ingredients != null && ingredients.contains(ingredient)) {
 			ingredients.remove(ingredient);
 			ingredient.removeRecipe(this);
+			return true;
 		}
+		return false;
 	}
 
 	public int getId() {

@@ -128,6 +128,7 @@ public class RecipeController {
 	@RequestMapping(path = "sendToUpdateRecipe.do", method = RequestMethod.GET)
 	public String sendToEdit(@RequestParam("recipeId") int id, Model model) {
 		Recipe recipe = dao.searchById(id);
+		List<Ingredient> ingredients = recipe.getIngredients();
 		model.addAttribute("recipe", recipe);
 		return "updateRecipeForm";
 	}
@@ -142,7 +143,34 @@ public class RecipeController {
 			return "deleteError";
 		}
 	}
+	
+	@RequestMapping(path="addIngredientToRecipe.do", method=RequestMethod.POST)
+	public String addIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient, Model model) {
+//		System.out.println(ingredient);
+		Ingredient newIngredient = dao.findIngredientByName(ingredient);
+		Recipe currentRecipe = dao.searchById(id);
+		
+		currentRecipe.addIngredient(newIngredient);
+		dao.updateRecipe(currentRecipe.getId(), currentRecipe);
+		model.addAttribute("recipe", currentRecipe);
+		
+		return "recipeDetails";
+	}
 
+	@RequestMapping(path="delIngredientFromRecipe.do", method=RequestMethod.POST)
+	public String deleteIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient, Model model) {
+		Ingredient ingredientToDel = dao.findIngredientByName(ingredient);
+		Recipe currentRecipe = dao.searchById(id);
+		boolean isDeleted = currentRecipe.removeIngredient(ingredientToDel);
+		if (isDeleted) {
+			dao.updateRecipe(currentRecipe.getId(), currentRecipe);
+			model.addAttribute("recipe", currentRecipe);
+			return "recipeDetails";
+		} else {
+			return "generalError";
+		}
+		
+	}
 	@RequestMapping(path = "goHome.do", method = RequestMethod.GET)
 	public String goHome() {
 		return "index";

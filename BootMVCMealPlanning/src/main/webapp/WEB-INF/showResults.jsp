@@ -36,6 +36,7 @@
 						<br>
 						<form action="sendToUpdateRecipe.do">
 							<input type="hidden" value="${recipe.id }" name="recipeId"/>
+							<input type="hidden" value="${recipe.ingredients }" name="ingredients"/>
 							<input type="submit" class="btn btn-warning btn-md" value="Update" />
 						</form>
 						<br>

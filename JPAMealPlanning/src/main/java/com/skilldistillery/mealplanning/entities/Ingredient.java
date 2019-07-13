@@ -75,11 +75,13 @@ public class Ingredient {
 		}
 	}
 	
-	public void removeRecipe(Recipe recipe) {
+	public boolean removeRecipe(Recipe recipe) {
 		if (recipeList != null && recipeList.contains(recipe)) {
 			recipeList.remove(recipe);
 			recipe.removeIngredient(this);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
