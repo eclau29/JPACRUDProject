@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class Ingredient {
 
@@ -19,6 +21,7 @@ public class Ingredient {
 	private int id;
 	
 	@Column(name="ingredient_name")
+	@NotNull
 	private String ingredName;
 	
 	@ManyToMany(mappedBy = "ingredients")

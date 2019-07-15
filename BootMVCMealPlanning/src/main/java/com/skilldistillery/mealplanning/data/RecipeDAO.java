@@ -2,6 +2,8 @@ package com.skilldistillery.mealplanning.data;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.skilldistillery.mealplanning.entities.Ingredient;
 import com.skilldistillery.mealplanning.entities.Recipe;
 
@@ -36,5 +38,7 @@ public interface RecipeDAO {
 	public List<Recipe> searchByIngredient(String ingredient);
 	
 	public Ingredient findIngredientByName (String ingredient);
+
+	public Ingredient addNewIngredient(@Valid Ingredient ingredient);
 	
 }

@@ -1,6 +1,7 @@
 package com.skilldistillery.mealplanning.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -49,7 +50,7 @@ public class RecipeController {
 		System.out.println(recList);
 		return "showResults";
 	}
-	
+
 	@RequestMapping(path = "getRecipesIngredient.do", method = RequestMethod.GET)
 	public String showResultsByIngredient(String ingredient, Model model) {
 		List<Recipe> recList = dao.searchByIngredient(ingredient);
@@ -143,37 +144,70 @@ public class RecipeController {
 			return "deleteError";
 		}
 	}
-	
-	@RequestMapping(path="addIngredientToRecipe.do", method=RequestMethod.POST)
-	public String addIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient, Model model) {
-//		System.out.println(ingredient);
-		Ingredient newIngredient = dao.findIngredientByName(ingredient);
-		Recipe currentRecipe = dao.searchById(id);
-		
-		currentRecipe.addIngredient(newIngredient);
-		dao.updateRecipe(currentRecipe.getId(), currentRecipe);
-		model.addAttribute("recipe", currentRecipe);
-		
-		return "recipeDetails";
-	}
 
-	@RequestMapping(path="delIngredientFromRecipe.do", method=RequestMethod.POST)
-	public String deleteIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient, Model model) {
-		Ingredient ingredientToDel = dao.findIngredientByName(ingredient);
-		Recipe currentRecipe = dao.searchById(id);
-		boolean isDeleted = currentRecipe.removeIngredient(ingredientToDel);
-		if (isDeleted) {
+	@RequestMapping(path = "addIngredientToRecipe.do", method = RequestMethod.POST)
+	public String addIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient,
+			Model model) {
+//		System.out.println(ingredient);
+		try {
+			Ingredient newIngredient = dao.findIngredientByName(ingredient);
+			Recipe currentRecipe = dao.searchById(id);
+
+			currentRecipe.addIngredient(newIngredient);
 			dao.updateRecipe(currentRecipe.getId(), currentRecipe);
 			model.addAttribute("recipe", currentRecipe);
+
 			return "recipeDetails";
-		} else {
-			return "generalError";
+		} catch (Exception e) {
+			model.addAttribute("recipeId", id);
+			return "addNewIngredient";
 		}
-		
 	}
+
+	@RequestMapping(path = "delIngredientFromRecipe.do", method = RequestMethod.POST)
+	public String deleteIngredientToRecipe(@RequestParam("recipeId") int id, Recipe recipe, String ingredient,
+			Model model) {
+		try {
+			Ingredient ingredientToDel = dao.findIngredientByName(ingredient);
+			Recipe currentRecipe = dao.searchById(id);
+			boolean isDeleted = currentRecipe.removeIngredient(ingredientToDel);
+			if (isDeleted) {
+				dao.updateRecipe(currentRecipe.getId(), currentRecipe);
+				model.addAttribute("recipe", currentRecipe);
+				return "recipeDetails";
+			} else {
+				return "generalError";
+			}
+		} catch (Exception e) {
+			return "generalError";
+//			e.printStackTrace();
+		}
+
+	}
+
 	@RequestMapping(path = "goHome.do", method = RequestMethod.GET)
 	public String goHome() {
 		return "index";
 	}
-	
+
+	@RequestMapping(path = "addNewIngredient.do", method = RequestMethod.POST)
+	public String addNewIngredient(@RequestParam("recipeId") Integer id, @Valid Ingredient ingredient, Errors errors,
+			Model model) {
+		Ingredient newIngredient;
+
+		if (errors.getErrorCount() != 0) {
+			return "generalError";
+		}
+		if (id != null) {
+			int primitiveId = id;
+			newIngredient = dao.addNewIngredient(ingredient);
+			return addIngredientToRecipe(primitiveId, dao.searchById(id), newIngredient.getIngredName(), model);
+
+		} else {
+			newIngredient = dao.addNewIngredient(ingredient);
+			model.addAttribute("ingredient", newIngredient);
+			return "displayNewIngredient";
+		}
+	}
+
 }

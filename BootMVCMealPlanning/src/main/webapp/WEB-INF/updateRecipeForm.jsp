@@ -73,7 +73,6 @@
 			<input type="text" name="recipeUrl" value="${recipe.recipeUrl}" size=65>
 			<br>
 		<input type="hidden" value="${recipe.id}" name="recipeId"/> 
-		<input type="hidden" value="${recipe.ingredients }" name="ingredients"/>
 		<input type="submit" class="btn btn-success btn-md" value="Make Changes ">
 		     
 	</form>

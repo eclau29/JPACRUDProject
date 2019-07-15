@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
@@ -161,6 +162,15 @@ public class RecipeDAOImpl implements RecipeDAO {
 		Ingredient foundIngredient = em.createQuery(query, Ingredient.class).setParameter("ingredient", ingredient).getSingleResult();
 		
 		return foundIngredient;
+	}
+
+	@Override
+	public Ingredient addNewIngredient(@Valid Ingredient ingredient) {
+		System.out.println("************************* IN DAOIMPL ************8" + ingredient);
+		em.persist(ingredient);
+
+		em.flush();
+		return ingredient;
 	}
 	
 	
